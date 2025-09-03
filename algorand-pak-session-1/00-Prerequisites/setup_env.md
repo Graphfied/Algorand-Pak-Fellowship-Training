@@ -1,6 +1,6 @@
 # Development Environment Setup
 
-This guide will help you set up a proper development environment for Algorand Python development.
+This guide will help you set up a proper development environment for Algorand Python development, including Docker for containerized development.
 
 ## Why Use Virtual Environments?
 
@@ -60,6 +60,12 @@ pip install pytest
 
 # Jupyter notebook (for interactive development)
 pip install jupyter notebook
+
+# Docker integration tools
+pip install docker-compose
+
+# Git integration
+pip install gitpython
 ```
 
 ## Step 4: Verify Installation
@@ -120,7 +126,50 @@ Create a `.vscode/settings.json` file in your project:
 }
 ```
 
-## Step 6: Create Project Structure
+## Step 6: Docker Setup (Optional but Recommended)
+
+### Create Dockerfile
+```dockerfile
+# Dockerfile
+FROM python:3.12-slim
+
+# Set working directory
+WORKDIR /app
+
+# Copy requirements first for better caching
+COPY requirements.txt .
+
+# Install dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy project files
+COPY . .
+
+# Expose port (if needed)
+EXPOSE 8000
+
+# Default command
+CMD ["python", "main.py"]
+```
+
+### Create docker-compose.yml
+```yaml
+# docker-compose.yml
+version: '3.8'
+
+services:
+  algorand-dev:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONPATH=/app
+    command: python -m pytest tests/
+```
+
+## Step 7: Create Project Structure
 
 ```bash
 # Create basic project structure
@@ -128,9 +177,11 @@ mkdir src tests docs
 touch src/__init__.py
 touch tests/__init__.py
 touch requirements.txt
+touch Dockerfile
+touch docker-compose.yml
 ```
 
-## Step 7: Generate Requirements File
+## Step 8: Generate Requirements File
 
 ```bash
 # Generate requirements.txt from installed packages
@@ -192,6 +243,29 @@ source algorand-env/bin/activate
 - Check that packages were installed in the correct environment
 - Try reinstalling the problematic package
 
+## Docker Commands
+
+### Basic Docker Commands
+```bash
+# Build Docker image
+docker build -t algorand-dev .
+
+# Run container
+docker run -it algorand-dev
+
+# Run with docker-compose
+docker-compose up
+
+# Stop containers
+docker-compose down
+
+# View running containers
+docker ps
+
+# View logs
+docker logs <container_id>
+```
+
 ## Best Practices
 
 1. **Always use virtual environments** for Python projects
@@ -199,6 +273,8 @@ source algorand-env/bin/activate
 3. **Use descriptive environment names** (e.g., `algorand-dev-env`)
 4. **Document your setup** in your project README
 5. **Never commit virtual environment folders** to version control
+6. **Use Docker for consistent environments** across different machines
+7. **Version control your Dockerfile** and docker-compose.yml
 
 ## Next Steps
 
