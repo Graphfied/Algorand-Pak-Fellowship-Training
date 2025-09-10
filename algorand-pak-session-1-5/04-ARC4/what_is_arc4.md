@@ -25,44 +25,25 @@ ARC4 is a **type system specification** that defines how data types should be re
 ## Why Do We Need ARC4?
 
 ### 1. **Type Safety**
-```python
-# Without ARC4 - No type safety
-def transfer_tokens(amount):
-    return amount * 2  # Could be anything
-
-# With ARC4 - Type safety
-from algopy import UInt64
-def transfer_tokens(amount: UInt64) -> UInt64:
-    return amount * UInt64(2)  # Guaranteed to be UInt64
-```
+**Concept**: Ensures data is handled correctly and prevents type-related errors
+- **Without ARC4**: Variables can hold any type, leading to runtime errors
+- **With ARC4**: Types are enforced at compile time, preventing errors
+- **Example**: A function expecting a number won't accept a string
+- **Benefit**: More reliable and predictable smart contracts
 
 ### 2. **Interoperability**
-```python
-# Contract A uses ARC4 types
-def contract_a_function(amount: UInt64) -> UInt64:
-    return amount
-
-# Contract B can call Contract A with same types
-def contract_b_function():
-    amount = UInt64(1000)
-    result = contract_a_function(amount)  # Types match!
-    return result
-```
+**Concept**: Different smart contracts can communicate using the same type system
+- **Universal Language**: All contracts understand ARC4 types
+- **Seamless Integration**: Contracts can call each other without type conversion
+- **Example**: Contract A can call Contract B using the same UInt64 type
+- **Benefit**: Enables complex multi-contract applications
 
 ### 3. **Standardization**
-```python
-# All contracts use the same type definitions
-from algopy import UInt64, String, Account, Asset
-
-# Consistent across all Algorand contracts
-def standard_function(
-    amount: UInt64,
-    name: String,
-    account: Account,
-    asset: Asset
-) -> UInt64:
-    return amount
-```
+**Concept**: Provides consistent data formats across all Algorand smart contracts
+- **Uniform Interface**: All contracts use the same type definitions
+- **Predictable Behavior**: Developers know what to expect from each type
+- **Example**: UInt64 always represents a 64-bit unsigned integer
+- **Benefit**: Easier development and maintenance
 
 ## ARC4 vs Regular Python Types
 
@@ -77,6 +58,11 @@ w = {"a": 1}  # dict
 # Types can change
 x = "world"   # Now x is a string
 ```
+**Concept**: Dynamic typing where variable types can change at runtime
+- **Flexibility**: Same variable can hold different types
+- **Runtime Determination**: Types are determined when code runs
+- **Examples**: int, str, list, dict - all can be reassigned
+- **Trade-off**: More flexible but less predictable
 
 ### ARC4 Types
 ```python
@@ -91,6 +77,11 @@ w = Asset(12345)         # Asset
 # Types cannot change
 # x = String("world")    # Error!
 ```
+**Concept**: Static typing where types are fixed and checked at compile time
+- **Type Safety**: Types cannot change once declared
+- **Compile-time Checking**: Errors caught before deployment
+- **Examples**: UInt64, String, Account, Asset - each has specific purpose
+- **Trade-off**: Less flexible but more secure and predictable
 
 ## ARC4 Type Categories
 

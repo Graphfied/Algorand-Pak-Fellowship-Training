@@ -84,67 +84,28 @@ If rejected:
 ## Real-World Examples
 
 ### 1. **Escrow Service**
-```python
-# Simplified escrow contract
-def escrow_contract():
-    # Buyer sends money to contract
-    # Seller ships product
-    # Buyer confirms receipt
-    # Contract releases payment to seller
-    
-    if buyer_confirms_receipt:
-        release_payment_to_seller()
-    elif dispute_period_expired:
-        release_payment_to_buyer()
-    else:
-        wait_for_confirmation()
-```
+**Concept**: A neutral third party holds funds until conditions are met
+- **Traditional**: Bank or lawyer holds money, charges fees, takes time
+- **Smart Contract**: Automatically releases payment when buyer confirms receipt
+- **Benefits**: No fees, instant execution, no human bias
 
 ### 2. **Insurance Claims**
-```python
-# Automated insurance payout
-def insurance_contract():
-    # Policyholder pays premium
-    # Event occurs (accident, damage)
-    # Contract verifies event
-    # Contract automatically pays claim
-    
-    if event_verified and policy_active:
-        payout_amount = calculate_payout()
-        transfer_to_policyholder(payout_amount)
-    else:
-        reject_claim()
-```
+**Concept**: Automated payout based on verifiable events
+- **Traditional**: Manual claim processing, human verification, delays
+- **Smart Contract**: Instant payout when conditions are met (e.g., flight delay)
+- **Benefits**: Faster payouts, reduced fraud, lower costs
 
 ### 3. **Supply Chain Tracking**
-```python
-# Product authenticity verification
-def supply_chain_contract():
-    # Manufacturer creates product record
-    # Each transfer is recorded
-    # Consumer can verify authenticity
-    # Tamper-proof history
-    
-    if product_exists and chain_of_custody_valid:
-        return "Authentic"
-    else:
-        return "Counterfeit"
-```
+**Concept**: Immutable record of product journey from manufacturer to consumer
+- **Traditional**: Paper records, easy to forge, limited visibility
+- **Smart Contract**: Tamper-proof digital trail, instant verification
+- **Benefits**: Authenticity guarantee, consumer trust, fraud prevention
 
 ### 4. **Decentralized Voting**
-```python
-# Transparent voting system
-def voting_contract():
-    # Voters cast votes
-    # Votes are recorded immutably
-    # Results are automatically calculated
-    # No manipulation possible
-    
-    if voting_period_active and voter_eligible:
-        record_vote(voter, choice)
-    else:
-        reject_vote()
-```
+**Concept**: Transparent, tamper-proof voting system
+- **Traditional**: Paper ballots, manual counting, potential manipulation
+- **Smart Contract**: Digital votes, automatic counting, public verification
+- **Benefits**: Transparency, immutability, global accessibility
 
 ## Smart Contract vs Traditional Contracts
 
@@ -248,46 +209,22 @@ def voting_contract():
 ## Common Smart Contract Patterns
 
 ### 1. **State Machine Pattern**
-```python
-# Contract with different states
-class VotingContract:
-    def __init__(self):
-        self.state = "CREATED"
-        self.votes = {}
-    
-    def start_voting(self):
-        if self.state == "CREATED":
-            self.state = "ACTIVE"
-    
-    def cast_vote(self, voter, choice):
-        if self.state == "ACTIVE":
-            self.votes[voter] = choice
-    
-    def end_voting(self):
-        if self.state == "ACTIVE":
-            self.state = "COMPLETED"
-```
+**Concept**: Contract operates in different states with specific rules for each state
+- **Example**: Voting contract (Created → Active → Completed)
+- **Benefits**: Clear logic flow, prevents invalid operations
+- **Use Cases**: Auctions, voting, multi-step processes
 
 ### 2. **Factory Pattern**
-```python
-# Contract that creates other contracts
-class TokenFactory:
-    def create_token(self, name, symbol, supply):
-        new_token = Token(name, symbol, supply)
-        self.tokens.append(new_token)
-        return new_token.address
-```
+**Concept**: One contract creates multiple instances of other contracts
+- **Example**: Token factory that creates new tokens
+- **Benefits**: Standardized creation, cost efficiency
+- **Use Cases**: Token launches, NFT collections, standardized contracts
 
 ### 3. **Proxy Pattern**
-```python
-# Contract that delegates to implementation
-class ProxyContract:
-    def __init__(self, implementation):
-        self.implementation = implementation
-    
-    def execute(self, function_name, *args):
-        return getattr(self.implementation, function_name)(*args)
-```
+**Concept**: Contract delegates execution to another implementation contract
+- **Example**: Upgradeable contract that can change its logic
+- **Benefits**: Upgradability, gas efficiency
+- **Use Cases**: Long-term projects, evolving requirements
 
 ## Security Considerations
 
@@ -306,25 +243,12 @@ class ProxyContract:
 - **Emergency stops**: Ability to pause contract
 
 ### 3. **Testing Strategies**
-```python
-# Example test structure
-def test_voting_contract():
-    contract = VotingContract()
-    
-    # Test normal flow
-    contract.start_voting()
-    contract.cast_vote("alice", "yes")
-    contract.cast_vote("bob", "no")
-    contract.end_voting()
-    
-    # Test edge cases
-    with pytest.raises(Error):
-        contract.cast_vote("alice", "yes")  # Double voting
-    
-    # Test security
-    with pytest.raises(Error):
-        contract.cast_vote("hacker", "yes")  # Unauthorized access
-```
+**Concept**: Comprehensive testing approach for smart contracts
+- **Unit Testing**: Test individual functions in isolation
+- **Integration Testing**: Test how different parts work together
+- **Edge Case Testing**: Test boundary conditions and error scenarios
+- **Security Testing**: Test for common vulnerabilities and attack vectors
+- **Gas Optimization Testing**: Ensure efficient resource usage
 
 ## Smart Contract Use Cases
 

@@ -27,16 +27,11 @@ Algorand supports two distinct types of smart contracts:
 - **Conditional payments** - Pay only if conditions are met
 - **Atomic swaps** - Exchange assets without intermediaries
 
-#### Example:
-```python
-# Stateless contract: Time-locked payment
-def time_locked_payment():
-    # Only allow withdrawal after specific time
-    return And(
-        Global.latest_timestamp() > Int(1640995200),  # After Jan 1, 2022
-        Txn.amount() <= Int(1000000)  # Max 1 ALGO
-    )
-```
+#### Example Concept:
+**Time-locked Payment**: A contract that only allows withdrawals after a specific date
+- **Logic**: Check if current time is after the specified timestamp
+- **Validation**: Ensure transaction amount doesn't exceed limit
+- **Use Case**: Inheritance, vesting schedules, delayed payments
 
 ### Stateful Smart Contracts (Applications)
 
@@ -54,24 +49,12 @@ def time_locked_payment():
 - **Gaming** - In-game assets and logic
 - **Governance** - Voting and decision making
 
-#### Example:
-```python
-# Stateful contract: Simple voting
-def voting_contract():
-    # Global state
-    total_votes = App.globalGet(Bytes("total_votes"))
-    
-    # Local state (per user)
-    has_voted = App.localGet(Int(0), Bytes("has_voted"))
-    
-    # Logic
-    if has_voted == Int(0):  # User hasn't voted
-        App.localPut(Int(0), Bytes("has_voted"), Int(1))
-        App.globalPut(Bytes("total_votes"), total_votes + Int(1))
-        return Int(1)  # Approve
-    else:
-        return Int(0)  # Reject
-```
+#### Example Concept:
+**Voting System**: A contract that tracks votes and prevents double voting
+- **Global State**: Stores total vote count (shared by all users)
+- **Local State**: Tracks if each user has voted (private per user)
+- **Logic**: Allow voting only if user hasn't voted before
+- **Use Case**: Governance, polls, decision making
 
 ## Approval vs ClearState Programs
 

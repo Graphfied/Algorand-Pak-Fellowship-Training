@@ -1,6 +1,6 @@
-# Algorand Python Development - Session 1
+# Algorand Python Development - Sessions 1-5
 
-Welcome to Session 1 of the Algorand Pakistan Fellowship Training! This session contains everything you need to get started with building smart contracts on the Algorand blockchain using Python.
+Welcome to Sessions 1-5 of the Algorand Pakistan Fellowship Training! This comprehensive session contains everything you need to get started with building smart contracts on the Algorand blockchain using Python.
 
 ## 🎯 Learning Outcomes
 
@@ -18,13 +18,12 @@ By the end of this session, you will be able to:
 This session is organized into logical sections that build upon each other:
 
 ```
-algorand-pak-session-1/
+algorand-pak-session-1-5/
 ├── 00-Prerequisites/          # Setup and installation guides
 ├── 01-Blockchain-Introduction/ # Blockchain and Algorand fundamentals
 ├── 02-Smart-Contracts/        # Smart contract concepts
-├── 03-Python-Basics/          # Python fundamentals with examples
-├── 04-Algorand-Python/        # Algorand-specific Python features
-├── 05-ARC4/                   # ARC4 types and usage
+├── 03-Algorand-Python/        # Algorand-specific Python features
+├── 04-ARC4/                   # ARC4 types and usage
 └── 06-Session-Recap/          # Summary and Q&A
 ```
 
@@ -73,8 +72,8 @@ If you encounter any issues or have questions:
 
 ## 🔗 Related Sessions
 
-- **Previous**: None (this is Session 1)
-- **Next**: [Session 2: Advanced Smart Contract Development](../algorand-pak-session-2/) (Coming Soon)
+- **Previous**: None (this is Sessions 1-5)
+- **Next**: [Session 6: Advanced Smart Contract Development](../algorand-pak-session-6/) (Coming Soon)
 
 ---
 

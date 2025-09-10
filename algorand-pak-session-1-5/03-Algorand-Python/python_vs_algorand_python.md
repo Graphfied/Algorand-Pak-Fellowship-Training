@@ -17,117 +17,62 @@ Understanding the differences between regular Python and Algorand Python is cruc
 ## Regular Python Characteristics
 
 ### 1. **Dynamic Typing**
-```python
-# Regular Python - types are determined at runtime
-x = 10        # x is an integer
-x = "hello"   # x is now a string
-x = [1, 2, 3] # x is now a list
-
-# No type checking at compile time
-def add_numbers(a, b):
-    return a + b  # Could be numbers, strings, or anything
-
-result = add_numbers(5, 3)      # Works: 8
-result = add_numbers("5", "3")  # Works: "53"
-result = add_numbers(5, "3")    # Runtime error!
-```
+**Concept**: Variable types are determined at runtime, not at compile time
+- **Flexibility**: Same variable can hold different types
+- **Runtime Errors**: Type mismatches only discovered when code runs
+- **Example**: A variable can be a number, then a string, then a list
+- **Trade-off**: More flexible but less predictable
 
 ### 2. **Interpreted Execution**
-```python
-# Regular Python - executed line by line
-def calculate_fee(amount):
-    fee = amount * 0.001
-    return fee
-
-# Code is interpreted at runtime
-result = calculate_fee(1000)  # Executed when called
-```
+**Concept**: Code is executed line by line at runtime
+- **Immediate Execution**: Code runs as soon as it's called
+- **No Compilation**: No pre-processing step required
+- **Runtime Optimization**: Limited optimization opportunities
+- **Trade-off**: Faster development but slower execution
 
 ### 3. **Full Standard Library**
-```python
-# Regular Python - access to entire standard library
-import os
-import sys
-import json
-import requests
-import numpy as np
-import pandas as pd
-
-# Can use any Python library
-def read_file(filename):
-    with open(filename, 'r') as f:
-        return f.read()
-```
+**Concept**: Access to Python's entire ecosystem of libraries
+- **Rich Ecosystem**: Thousands of available packages
+- **External Dependencies**: Can use any Python library
+- **File System Access**: Can read/write files, access network
+- **Trade-off**: Powerful but not suitable for blockchain constraints
 
 ### 4. **Unlimited Memory**
-```python
-# Regular Python - no memory constraints
-large_list = [i for i in range(1000000)]  # 1 million items
-large_dict = {i: i*2 for i in range(1000000)}  # 1 million key-value pairs
-
-# Memory is only limited by system resources
-```
+**Concept**: Memory usage is only limited by system resources
+- **No Constraints**: Can create large data structures
+- **Garbage Collection**: Automatic memory management
+- **System Dependent**: Limited by available RAM
+- **Trade-off**: Convenient but not suitable for blockchain
 
 ## Algorand Python Characteristics
 
 ### 1. **Static Typing with ARC4**
-```python
-# Algorand Python - types must be declared
-from algopy import UInt64, String, Account
-
-# Types are checked at compile time
-def calculate_fee(amount: UInt64) -> UInt64:
-    fee = amount * UInt64(1000)  # Must use ARC4 types
-    return fee
-
-# Type safety is enforced
-result = calculate_fee(UInt64(1000))  # Correct
-# result = calculate_fee("1000")      # Compile error!
-```
+**Concept**: All types must be declared and are checked at compile time
+- **Type Safety**: Prevents type-related errors before deployment
+- **ARC4 Types**: Special types designed for blockchain (UInt64, String, Account)
+- **Compile-time Checking**: Errors caught during compilation, not runtime
+- **Trade-off**: Less flexible but more predictable and secure
 
 ### 2. **Compiled to TEAL**
-```python
-# Algorand Python - compiled to TEAL bytecode
-from algopy import UInt64, Global, Txn
-
-def approval_program() -> UInt64:
-    # This code is compiled to TEAL
-    if Txn.sender == Global.creator_address:
-        return UInt64(1)  # Approve
-    else:
-        return UInt64(0)  # Reject
-
-# Code is compiled before deployment
-```
+**Concept**: Python code is compiled to TEAL bytecode before deployment
+- **Two-step Process**: Write in Python → Compile to TEAL → Deploy to blockchain
+- **Optimization**: Compiler optimizes code for blockchain execution
+- **TEAL Compatibility**: Ensures compatibility with Algorand Virtual Machine
+- **Trade-off**: Extra compilation step but better performance
 
 ### 3. **Limited Library Access**
-```python
-# Algorand Python - only specific libraries available
-from algopy import UInt64, String, Account, Global, Txn
-# from algopy import math  # Not available
-# import os                # Not available
-# import json              # Not available
-
-# Only blockchain-specific functionality
-def get_balance(account: Account) -> UInt64:
-    return account.balance
-```
+**Concept**: Only blockchain-specific libraries and functions are available
+- **Algopy Library**: Access to Algorand-specific types and functions
+- **No External Libraries**: Cannot import standard Python libraries
+- **Blockchain Focus**: Only functions relevant to blockchain operations
+- **Trade-off**: Limited functionality but secure and predictable
 
 ### 4. **Memory Constraints**
-```python
-# Algorand Python - limited memory and storage
-from algopy import UInt64, String
-
-# Limited global state storage
-def store_data(key: String, value: UInt64):
-    # Can only store limited amount of data
-    Global.state[key] = value
-
-# Limited local state per account
-def store_user_data(user: Account, data: UInt64):
-    # Limited storage per user
-    user.local_state["data"] = data
-```
+**Concept**: Memory usage is strictly limited by blockchain constraints
+- **Blockchain Limits**: Must work within Algorand's memory constraints
+- **Small Data Structures**: Cannot create large arrays or objects
+- **Efficient Design**: Code must be optimized for minimal memory usage
+- **Trade-off**: Limited data handling but suitable for blockchain
 
 ## Execution Models
 

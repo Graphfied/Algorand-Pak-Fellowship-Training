@@ -8,32 +8,33 @@ This fellowship program is designed to take you from blockchain beginner to Algo
 
 ## 📚 Available Sessions
 
-### [Session 1: Algorand Python Basics](./algorand-pak-session-1/)
-**Duration**: 2-3 hours  
-**Level**: Beginner  
-**Focus**: Python fundamentals, blockchain basics, and Algorand introduction
+### [Sessions 1-5: Algorand Python Basics](./algorand-pak-session-1-5/)
+**Duration**: 10-15 hours  
+**Level**: Beginner to Intermediate  
+**Focus**: Complete foundation in Algorand development with Python
 
 **What you'll learn:**
 - Blockchain fundamentals and Algorand overview
 - Python basics for blockchain development
 - Smart contract concepts (stateless vs stateful)
 - Algorand Python vs regular Python
-- ARC4 type system introduction
+- ARC4 type system and advanced features
+- Complete development environment setup
 
 **Prerequisites**: Basic programming knowledge (any language)
 
 ---
 
 ### Future Sessions (Coming Soon)
-- **Session 2**: Advanced Smart Contract Development
-- **Session 3**: DeFi Protocols and DApps
-- **Session 4**: NFT Development and Gaming
-- **Session 5**: Security and Best Practices
-- **Session 6**: Production Deployment and Monitoring
+- **[Session 6](./algorand-pak-session-6/)**: Advanced Smart Contract Development with AlgoKit
+- **[Session 7](./algorand-pak-session-7/)**: DeFi Protocols and DApps
+- **[Session 8](./algorand-pak-session-8/)**: Production Deployment and Scaling
+- **[Session 9](./algorand-pak-session-9/)**: Ecosystem Integration
+- **[Session 10](./algorand-pak-session-10/)**: Final Projects and Career Preparation
 
 ## 🚀 Getting Started
 
-1. **Choose Your Session**: Start with Session 1 if you're new to Algorand
+1. **Choose Your Session**: Start with Sessions 1-5 if you're new to Algorand
 2. **Follow the Structure**: Each session has a logical progression
 3. **Practice Actively**: Run examples and build your own projects
 4. **Join the Community**: Connect with fellow developers
@@ -62,17 +63,17 @@ pip install py-algorand-sdk pyteal algorand-python
 ## 📖 Learning Path
 
 ```
-Session 1 (Beginner)
+Sessions 1-5 (Foundation)
     ↓
-Session 2 (Intermediate)
+Session 6 (Advanced)
     ↓
-Session 3 (Advanced)
+Session 7 (DeFi)
     ↓
-Session 4 (Specialized)
+Session 8 (Production)
     ↓
-Session 5 (Expert)
+Session 9 (Integration)
     ↓
-Session 6 (Production)
+Session 10 (Mastery)
 ```
 
 ## 🎓 Learning Outcomes
@@ -110,12 +111,12 @@ Complete all sessions and build a final project to receive:
 
 ## 📅 Schedule
 
-- **Session 1**: Available now
-- **Session 2**: Coming soon
-- **Session 3**: Coming soon
-- **Session 4**: Coming soon
-- **Session 5**: Coming soon
+- **Sessions 1-5**: Available now
 - **Session 6**: Coming soon
+- **Session 7**: Coming soon
+- **Session 8**: Coming soon
+- **Session 9**: Coming soon
+- **Session 10**: Coming soon
 
 ## 🤝 Contributing
 
@@ -138,6 +139,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-**Ready to start your Algorand development journey? Begin with [Session 1](./algorand-pak-session-1/)!**
+**Ready to start your Algorand development journey? Begin with [Sessions 1-5](./algorand-pak-session-1-5/)!**
 
 *Building the future of blockchain, one developer at a time.* 🚀
