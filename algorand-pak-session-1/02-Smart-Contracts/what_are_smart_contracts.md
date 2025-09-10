@@ -373,6 +373,5 @@ def test_voting_contract():
 Now that you understand smart contracts, let's explore:
 1. **Smart Contracts High Level** - How smart contracts interact with the blockchain
 2. **Smart Contracts in Algorand** - Algorand-specific smart contract features
-3. **Stateless vs Stateful** - Different types of smart contracts
 
 Smart contracts are the building blocks of the decentralized future!

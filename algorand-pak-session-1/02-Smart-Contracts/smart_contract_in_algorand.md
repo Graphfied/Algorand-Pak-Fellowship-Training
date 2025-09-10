@@ -195,60 +195,9 @@ def update_local_state():
 ## Smart Contract Examples
 
 ### Example 1: Simple Counter (Stateful)
-
-```python
-def counter_contract():
-    # Handle different transaction types
-    return Cond(
-        [Txn.application_id() == Int(0), on_creation()],
-        [Txn.on_completion() == OnComplete.NoOp, on_noop()],
-        [Txn.on_completion() == OnComplete.OptIn, on_opt_in()],
-        [Txn.on_completion() == OnComplete.CloseOut, on_close_out()],
-        [Txn.on_completion() == OnComplete.ClearState, on_clear_state()]
-    )
-
-def on_creation():
-    # Initialize global state
-    return Seq([
-        App.globalPut(Bytes("count"), Int(0)),
-        App.globalPut(Bytes("owner"), Txn.sender()),
-        Return(Int(1))
-    ])
-
-def on_noop():
-    # Handle function calls
-    return Cond(
-        [Txn.application_args[0] == Bytes("increment"), increment()],
-        [Txn.application_args[0] == Bytes("get_count"), get_count()]
-    )
-
-def increment():
-    # Only owner can increment
-    return Seq([
-        Assert(Txn.sender() == App.globalGet(Bytes("owner"))),
-        App.globalPut(Bytes("count"), App.globalGet(Bytes("count")) + Int(1)),
-        Return(Int(1))
-    ])
-
-def get_count():
-    # Anyone can get count
-    return Return(Int(1))
-```
-
 ### Example 2: Multi-signature Wallet (Stateless)
 
-```python
-def multi_sig_wallet():
-    # Require 2 out of 3 signatures
-    return And(
-        # Check if transaction is valid
-        Txn.amount() <= Int(1000000),  # Max 1 ALGO
-        
-        # Check if enough signatures provided
-        # (This would be implemented with actual signature verification)
-        Int(1)  # Simplified for example
-    )
-```
+
 
 ## Smart Contract Development Tools
 
@@ -267,10 +216,6 @@ def multi_sig_wallet():
 - **Local development** environment
 - **Testing and deployment** tools
 
-### 4. **Algorand Studio**
-- **Visual development** environment
-- **Drag-and-drop** interface
-- **Beginner-friendly** tool
 
 ## Best Practices
 
@@ -301,34 +246,13 @@ def multi_sig_wallet():
 ## Common Patterns
 
 ### 1. **State Machine Pattern**
-```python
-def state_machine():
-    current_state = App.globalGet(Bytes("state"))
-    
-    return Cond(
-        [current_state == Bytes("CREATED"), handle_created()],
-        [current_state == Bytes("ACTIVE"), handle_active()],
-        [current_state == Bytes("COMPLETED"), handle_completed()]
-    )
-```
+
 
 ### 2. **Factory Pattern**
-```python
-def factory_contract():
-    # Create new instances of contracts
-    if Txn.application_args[0] == Bytes("create"):
-        return create_new_contract()
-    else:
-        return handle_existing_contract()
-```
+
 
 ### 3. **Proxy Pattern**
-```python
-def proxy_contract():
-    # Delegate to implementation contract
-    implementation_id = App.globalGet(Bytes("implementation"))
-    return call_implementation(implementation_id)
-```
+
 
 ## Key Takeaways
 

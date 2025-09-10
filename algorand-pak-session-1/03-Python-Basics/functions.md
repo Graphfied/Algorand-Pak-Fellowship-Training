@@ -540,19 +540,6 @@ def add_to_list(item, my_list=None):
     return my_list
 ```
 
-### 3. **Not Handling Errors**
-```python
-# Error: No error handling
-def divide(a, b):
-    return a / b  # Will crash if b is 0
-
-# Fix: Add error handling
-def divide(a, b):
-    try:
-        return a / b
-    except ZeroDivisionError:
-        return None
-```
 
 ## Key Takeaways
 
@@ -569,7 +556,6 @@ def divide(a, b):
 
 Now that you understand functions, let's explore:
 1. **Imports** - How to use code from other modules
-2. **Examples** - Practical examples combining all concepts
-3. **Algorand Python** - How Python works specifically on Algorand
+2. **Algorand Python** - How Python works specifically on Algorand
 
 Functions are the building blocks of your blockchain applications - master them and you'll be able to create powerful, reusable code!
