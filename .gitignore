@@ -4,11 +4,18 @@
 smart_contracts_high_level.md
 stateless_vs_stateful.md
 statically_compiled.md
+dynamically_interpreted.md
+
 
 # Ignore specific Python files
 conditions.py
 functions.py
 variables.py
+dynamic_typing_demo.py
+static_typing_demo.py
+type_error_demo.py
+arc4_basics.py
+arc4_types_demo.py
 
 # Ignore entire Python Basics folder
 03-Python-Basics/
