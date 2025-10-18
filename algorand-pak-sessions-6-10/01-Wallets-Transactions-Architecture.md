@@ -66,37 +66,26 @@ An Algorand account consists of:
 
 ### Basic Account Generation
 
-```python
-from algosdk import account, mnemonic
+Account generation involves creating a new cryptographic key pair consisting of a private key and public key. The process includes:
 
-# Generate a new account
-private_key, address = account.generate_account()
-
-# Convert private key to mnemonic (24 words)
-mnemonic_phrase = mnemonic.from_private_key(private_key)
-
-print(f"Address: {address}")
-print(f"Private Key: {private_key}")
-print(f"Mnemonic: {mnemonic_phrase}")
-```
+- **Private Key Generation**: A 256-bit random number that serves as the secret key
+- **Public Key Derivation**: Generated from the private key using cryptographic functions
+- **Address Creation**: A 58-character string derived from the public key
+- **Mnemonic Conversion**: Converting the private key to 24-word mnemonic phrase for easier storage
 
 ### Account Recovery
 
-```python
-# Recover account from mnemonic
-recovered_private_key = mnemonic.to_private_key(mnemonic_phrase)
-recovered_address = account.address_from_private_key(recovered_private_key)
-```
+Account recovery allows users to restore their accounts using:
+- **Mnemonic Phrases**: 24-word sequences that represent the private key
+- **Private Key Import**: Direct private key restoration
+- **Hardware Wallet**: Recovery through secure hardware devices
 
 ### Account Validation
 
-```python
-from algosdk import encoding
-
-# Validate if address is correct
-is_valid = encoding.is_valid_address(address)
-print(f"Address is valid: {is_valid}")
-```
+Account validation ensures the integrity of addresses by:
+- **Format Checking**: Verifying the address format and length
+- **Checksum Validation**: Confirming the address checksum
+- **Network Verification**: Ensuring the address is valid for the specific network
 
 ## Funding Wallets with TestNet Faucet
 
@@ -121,36 +110,15 @@ TestNet is Algorand's **testing environment** where:
 - **Community-run faucets**
 - **Higher limits** for verified developers
 
-### Faucet Integration in Code
+### Faucet Integration Process
 
-```python
-import requests
-from algosdk.v2client import algod
+Faucet integration involves programmatic interaction with TestNet funding services:
 
-# TestNet configuration
-ALGOD_TOKEN = ""  # No token needed for TestNet
-ALGOD_ADDRESS = "https://testnet-api.algonode.cloud"
-
-# Initialize client
-client = algod.AlgodClient(ALGOD_TOKEN, ALGOD_ADDRESS)
-
-def fund_account_with_faucet(address):
-    """Request funding from TestNet faucet"""
-    try:
-        response = requests.post(
-            "https://testnet.algoexplorer.io/api/v1/faucet",
-            json={"address": address}
-        )
-        if response.status_code == 200:
-            print(f"Funding request successful for {address}")
-            return True
-        else:
-            print(f"Funding failed: {response.text}")
-            return False
-    except Exception as e:
-        print(f"Error requesting funding: {e}")
-        return False
-```
+- **API Requests**: Making HTTP requests to faucet endpoints
+- **Address Validation**: Ensuring the address is valid before requesting funds
+- **Response Handling**: Processing success and error responses
+- **Rate Limiting**: Respecting faucet limits and cooldown periods
+- **Error Management**: Handling network errors and service unavailability
 
 ## Understanding Transactions
 
@@ -207,14 +175,15 @@ A transaction in Algorand is a **cryptographic message** that:
 - **Priority fee**: Additional fee for faster processing
 - **Total fee**: Base fee + (size × per-byte fee) + priority fee
 
-#### Fee Calculation Example
-```python
-def calculate_transaction_fee(tx_size_bytes, priority_fee=0):
-    """Calculate transaction fee"""
-    base_fee = 1000  # 0.001 ALGO in microALGOs
-    per_byte_fee = 1  # 0.000001 ALGO per byte
-    return base_fee + (tx_size_bytes * per_byte_fee) + priority_fee
-```
+#### Fee Calculation Process
+
+Transaction fee calculation involves several components:
+
+- **Base Fee**: Minimum fee required for any transaction (0.001 ALGO)
+- **Size-based Fee**: Additional fee based on transaction size in bytes
+- **Priority Fee**: Optional fee for faster processing
+- **Total Calculation**: Sum of all fee components
+- **Network Conditions**: Fees may vary based on network congestion
 
 ## Transaction Lifecycle
 
@@ -318,91 +287,37 @@ def calculate_transaction_fee(tx_size_bytes, priority_fee=0):
 6. **Contract executes** and updates state
 7. **Frontend reflects** new state
 
-## Practical Examples
+## Practical Applications
 
-### Example 1: Basic Payment Transaction
+### Payment Transaction Management
 
-```python
-from algosdk import transaction, account
-from algosdk.v2client import algod
+Payment transactions form the foundation of value transfer on Algorand:
 
-def create_payment_transaction(sender, receiver, amount, private_key):
-    """Create and send a payment transaction"""
-    
-    # Initialize client
-    client = algod.AlgodClient("", "https://testnet-api.algonode.cloud")
-    
-    # Get suggested parameters
-    params = client.suggested_params()
-    
-    # Create transaction
-    txn = transaction.PaymentTxn(
-        sender=sender,
-        sp=params,
-        receiver=receiver,
-        amt=amount,
-        note="Payment transaction example"
-    )
-    
-    # Sign transaction
-    signed_txn = txn.sign(private_key)
-    
-    # Submit transaction
-    txid = client.send_transaction(signed_txn)
-    
-    # Wait for confirmation
-    confirmed_txn = transaction.wait_for_confirmation(client, txid, 4)
-    
-    return confirmed_txn
-```
+- **Transaction Creation**: Building transaction objects with proper parameters
+- **Parameter Setting**: Configuring sender, receiver, amount, and fees
+- **Signing Process**: Using private keys to authorize transactions
+- **Submission**: Sending transactions to the network
+- **Confirmation**: Waiting for network validation and inclusion
 
-### Example 2: Account Balance Check
+### Account Balance Monitoring
 
-```python
-def check_account_balance(address):
-    """Check account balance and information"""
-    
-    client = algod.AlgodClient("", "https://testnet-api.algonode.cloud")
-    
-    try:
-        account_info = client.account_info(address)
-        balance = account_info.get('amount', 0)
-        
-        print(f"Account: {address}")
-        print(f"Balance: {balance / 1000000} ALGO")  # Convert from microALGOs
-        print(f"Assets: {len(account_info.get('assets', []))}")
-        
-        return account_info
-    except Exception as e:
-        print(f"Error checking balance: {e}")
-        return None
-```
+Account balance checking involves several key aspects:
 
-### Example 3: Transaction History
+- **Real-time Queries**: Fetching current account information
+- **Balance Conversion**: Converting from microALGOs to ALGOs for display
+- **Asset Tracking**: Monitoring both ALGO and ASA balances
+- **Error Handling**: Managing network errors and invalid addresses
+- **Data Presentation**: Formatting information for user interfaces
 
-```python
-def get_transaction_history(address, limit=10):
-    """Get recent transaction history for an account"""
-    
-    client = algod.AlgodClient("", "https://testnet-api.algonode.cloud")
-    
-    try:
-        # Get account transactions
-        transactions = client.account_transactions(address, limit=limit)
-        
-        print(f"Recent transactions for {address}:")
-        for txn in transactions['transactions']:
-            print(f"ID: {txn['id']}")
-            print(f"Type: {txn['tx-type']}")
-            print(f"Round: {txn['confirmed-round']}")
-            print(f"Amount: {txn.get('amount', 0) / 1000000} ALGO")
-            print("---")
-            
-        return transactions
-    except Exception as e:
-        print(f"Error getting transaction history: {e}")
-        return None
-```
+### Transaction History Analysis
+
+Transaction history provides valuable insights into account activity:
+
+- **Historical Data**: Retrieving past transactions for an account
+- **Transaction Details**: Accessing specific information about each transaction
+- **Filtering Options**: Limiting results by date, type, or amount
+- **Data Processing**: Analyzing transaction patterns and trends
+- **User Interface**: Presenting history in user-friendly formats
 
 ## Best Practices
 

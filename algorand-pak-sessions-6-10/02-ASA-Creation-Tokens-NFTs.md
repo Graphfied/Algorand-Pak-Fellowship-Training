@@ -151,22 +151,20 @@ Non-Fungible Tokens are **unique** and **non-interchangeable**. Each token has *
 - **Pay creation fee** (0.1 ALGO)
 
 #### Required Parameters
-```python
-# Basic ASA creation parameters
-asset_params = {
-    "total": 1000000,           # Total supply
-    "decimals": 6,              # Decimal places
-    "default_frozen": False,    # Freeze status
-    "unit_name": "MYTOKEN",     # Unit name
-    "asset_name": "My Token",   # Full name
-    "manager": creator_address, # Manager address
-    "reserve": creator_address, # Reserve address
-    "freeze": None,             # Freeze address
-    "clawback": None,           # Clawback address
-    "url": "https://example.com/metadata.json",
-    "metadata_hash": b"",       # Hash of metadata
-}
-```
+
+ASA creation requires several essential parameters:
+
+- **Total Supply**: Maximum number of tokens that can exist
+- **Decimals**: Number of decimal places for token precision
+- **Default Frozen**: Initial freeze status for the asset
+- **Unit Name**: Short symbol for the token (e.g., "USDC")
+- **Asset Name**: Full descriptive name of the token
+- **Manager Address**: Account with authority to modify asset parameters
+- **Reserve Address**: Account holding unused tokens from total supply
+- **Freeze Address**: Account with authority to freeze/unfreeze holdings
+- **Clawback Address**: Account with authority to revoke tokens
+- **Metadata URL**: Link to additional asset information
+- **Metadata Hash**: Cryptographic hash of metadata for integrity
 
 ### 2. **Opt-in Phase**
 
@@ -177,23 +175,15 @@ asset_params = {
 - **Creates local state** for the asset
 
 #### Opt-in Process
-```python
-def opt_in_to_asset(account_address, asset_id, private_key):
-    """Opt-in to receive an ASA"""
-    
-    # Create opt-in transaction
-    opt_in_txn = transaction.AssetOptInTxn(
-        sender=account_address,
-        sp=client.suggested_params(),
-        index=asset_id
-    )
-    
-    # Sign and submit
-    signed_txn = opt_in_txn.sign(private_key)
-    txid = client.send_transaction(signed_txn)
-    
-    return txid
-```
+
+The opt-in process involves several key steps:
+
+- **Transaction Creation**: Building an Asset Opt-in transaction
+- **Asset ID Specification**: Identifying the specific asset to opt into
+- **Account Authorization**: Using the account's private key to sign
+- **Network Submission**: Sending the transaction to the Algorand network
+- **Confirmation**: Waiting for network validation and inclusion
+- **State Update**: Creating local state for the asset in the account
 
 ### 3. **Transfer Phase**
 
@@ -204,25 +194,15 @@ def opt_in_to_asset(account_address, asset_id, private_key):
 - **Specify amount** to transfer
 
 #### Transfer Process
-```python
-def transfer_asset(sender, receiver, asset_id, amount, private_key):
-    """Transfer ASA between accounts"""
-    
-    # Create transfer transaction
-    transfer_txn = transaction.AssetTransferTxn(
-        sender=sender,
-        sp=client.suggested_params(),
-        receiver=receiver,
-        amt=amount,
-        index=asset_id
-    )
-    
-    # Sign and submit
-    signed_txn = transfer_txn.sign(private_key)
-    txid = client.send_transaction(signed_txn)
-    
-    return txid
-```
+
+Asset transfers require careful coordination of several elements:
+
+- **Sender Validation**: Ensuring the sender has sufficient balance
+- **Receiver Verification**: Confirming the receiver has opted into the asset
+- **Amount Specification**: Defining the exact quantity to transfer
+- **Asset Identification**: Specifying the unique asset ID
+- **Transaction Authorization**: Signing with the sender's private key
+- **Network Processing**: Submitting to the Algorand network for validation
 
 ### 4. **Management Phase**
 
@@ -281,38 +261,16 @@ ARC-3 is the **basic standard** for NFT metadata on Algorand. It defines:
 }
 ```
 
-#### Implementation
-```python
-def create_arc3_nft(creator_address, metadata_url, private_key):
-    """Create an ARC-3 compliant NFT"""
-    
-    # Create asset with ARC-3 parameters
-    asset_params = {
-        "total": 1,                    # NFT supply = 1
-        "decimals": 0,                 # NFTs are indivisible
-        "default_frozen": False,
-        "unit_name": "NFT",            # Unit name
-        "asset_name": "My NFT",        # Asset name
-        "manager": creator_address,
-        "reserve": creator_address,
-        "freeze": None,
-        "clawback": None,
-        "url": metadata_url,           # ARC-3 metadata URL
-        "metadata_hash": b"",          # Optional hash
-    }
-    
-    # Create and submit transaction
-    txn = transaction.AssetCreateTxn(
-        sender=creator_address,
-        sp=client.suggested_params(),
-        **asset_params
-    )
-    
-    signed_txn = txn.sign(private_key)
-    txid = client.send_transaction(signed_txn)
-    
-    return txid
-```
+#### Implementation Process
+
+ARC-3 NFT implementation follows a structured approach:
+
+- **Asset Configuration**: Setting up NFT-specific parameters (supply=1, decimals=0)
+- **Metadata Integration**: Linking to JSON metadata following ARC-3 standards
+- **Unique Identification**: Ensuring each NFT has distinct properties
+- **Standard Compliance**: Following ARC-3 specification for interoperability
+- **Transaction Processing**: Creating and submitting asset creation transactions
+- **Verification**: Confirming successful NFT creation and metadata accessibility
 
 ### ARC-19: Dynamic NFTs
 
@@ -344,165 +302,37 @@ ARC-19 extends ARC-3 with **dynamic content** capabilities:
 - **Template reusability**
 - **Real-time data** integration
 
-## Code Examples
+## Practical Applications
 
-### Example 1: Creating a Fungible Token
+### Fungible Token Creation
 
-```python
-from algosdk import transaction, account
-from algosdk.v2client import algod
+Creating fungible tokens involves several key considerations:
 
-def create_fungible_token(creator_address, private_key):
-    """Create a fungible token (ASA)"""
-    
-    client = algod.AlgodClient("", "https://testnet-api.algonode.cloud")
-    
-    # Token parameters
-    asset_params = {
-        "total": 1000000,              # 1M tokens
-        "decimals": 6,                 # 6 decimal places
-        "default_frozen": False,
-        "unit_name": "MYTOKEN",        # Symbol
-        "asset_name": "My Token",      # Full name
-        "manager": creator_address,
-        "reserve": creator_address,
-        "freeze": None,
-        "clawback": None,
-        "url": "https://example.com/token-metadata.json",
-        "metadata_hash": b"",
-    }
-    
-    # Create asset creation transaction
-    txn = transaction.AssetCreateTxn(
-        sender=creator_address,
-        sp=client.suggested_params(),
-        **asset_params
-    )
-    
-    # Sign and submit
-    signed_txn = txn.sign(private_key)
-    txid = client.send_transaction(signed_txn)
-    
-    # Wait for confirmation
-    confirmed_txn = transaction.wait_for_confirmation(client, txid, 4)
-    
-    # Get asset ID
-    asset_id = confirmed_txn['asset-index']
-    print(f"Token created with ID: {asset_id}")
-    
-    return asset_id
-```
+- **Supply Planning**: Determining appropriate total supply and decimal places
+- **Parameter Configuration**: Setting up manager, reserve, freeze, and clawback addresses
+- **Metadata Design**: Creating comprehensive token information and documentation
+- **Security Setup**: Configuring appropriate permissions and access controls
+- **Testing Strategy**: Validating token behavior on TestNet before MainNet deployment
 
-### Example 2: Creating an NFT
+### NFT Collection Development
 
-```python
-def create_nft(creator_address, private_key, metadata_url):
-    """Create a Non-Fungible Token"""
-    
-    client = algod.AlgodClient("", "https://testnet-api.algonode.cloud")
-    
-    # NFT parameters
-    asset_params = {
-        "total": 1,                    # Only 1 NFT
-        "decimals": 0,                 # Indivisible
-        "default_frozen": False,
-        "unit_name": "NFT",            # Unit name
-        "asset_name": "My NFT",        # Asset name
-        "manager": creator_address,
-        "reserve": creator_address,
-        "freeze": None,
-        "clawback": None,
-        "url": metadata_url,           # Metadata URL
-        "metadata_hash": b"",          # Optional hash
-    }
-    
-    # Create asset creation transaction
-    txn = transaction.AssetCreateTxn(
-        sender=creator_address,
-        sp=client.suggested_params(),
-        **asset_params
-    )
-    
-    # Sign and submit
-    signed_txn = txn.sign(private_key)
-    txid = client.send_transaction(signed_txn)
-    
-    # Wait for confirmation
-    confirmed_txn = transaction.wait_for_confirmation(client, txid, 4)
-    
-    # Get asset ID
-    asset_id = confirmed_txn['asset-index']
-    print(f"NFT created with ID: {asset_id}")
-    
-    return asset_id
-```
+NFT collection creation requires careful planning and execution:
 
-### Example 3: Minting Multiple NFTs
+- **Metadata Standards**: Following ARC-3 or ARC-19 specifications for interoperability
+- **Unique Properties**: Ensuring each NFT has distinct characteristics and value
+- **Collection Strategy**: Planning the overall collection theme and individual pieces
+- **Storage Solutions**: Choosing appropriate metadata storage (IPFS, Arweave, etc.)
+- **Marketplace Integration**: Ensuring compatibility with NFT marketplaces
 
-```python
-def mint_nft_collection(creator_address, private_key, collection_size, base_metadata_url):
-    """Mint a collection of NFTs"""
-    
-    client = algod.AlgodClient("", "https://testnet-api.algonode.cloud")
-    asset_ids = []
-    
-    for i in range(collection_size):
-        # Create unique metadata URL for each NFT
-        metadata_url = f"{base_metadata_url}/{i}.json"
-        
-        # Create NFT
-        asset_id = create_nft(creator_address, private_key, metadata_url)
-        asset_ids.append(asset_id)
-        
-        print(f"Minted NFT {i+1}/{collection_size} with ID: {asset_id}")
-    
-    return asset_ids
-```
+### Asset Management Operations
 
-### Example 4: Asset Management Functions
+Effective asset management involves multiple operational aspects:
 
-```python
-def freeze_asset(manager_address, asset_id, target_address, private_key):
-    """Freeze an asset for a specific account"""
-    
-    client = algod.AlgodClient("", "https://testnet-api.algonode.cloud")
-    
-    # Create freeze transaction
-    freeze_txn = transaction.AssetFreezeTxn(
-        sender=manager_address,
-        sp=client.suggested_params(),
-        index=asset_id,
-        target=target_address,
-        new_freeze_state=True
-    )
-    
-    # Sign and submit
-    signed_txn = freeze_txn.sign(private_key)
-    txid = client.send_transaction(signed_txn)
-    
-    return txid
-
-def revoke_asset(manager_address, asset_id, target_address, receiver_address, private_key):
-    """Revoke (destroy) assets from an account"""
-    
-    client = algod.AlgodClient("", "https://testnet-api.algonode.cloud")
-    
-    # Create revoke transaction
-    revoke_txn = transaction.AssetTransferTxn(
-        sender=manager_address,
-        sp=client.suggested_params(),
-        receiver=receiver_address,
-        amt=0,  # Amount will be determined by the network
-        index=asset_id,
-        revocation_target=target_address
-    )
-    
-    # Sign and submit
-    signed_txn = revoke_txn.sign(private_key)
-    txid = client.send_transaction(signed_txn)
-    
-    return txid
-```
+- **Freeze Management**: Controlling asset transfers for compliance or security
+- **Revoke Operations**: Handling asset recovery in case of security issues
+- **Supply Management**: Managing token minting and burning operations
+- **Permission Updates**: Modifying asset parameters as needed
+- **User Support**: Providing assistance for asset-related issues
 
 ## Best Practices
 

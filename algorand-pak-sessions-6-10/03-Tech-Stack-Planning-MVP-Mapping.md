@@ -189,29 +189,19 @@ Web3 projects differ from traditional web applications in several key ways:
 ### Blockchain Integration
 
 #### 1. **Algorand SDK (Python)**
-```python
-from algosdk import account, transaction
-from algosdk.v2client import algod
-
-# Best for: Backend services, data processing
-client = algod.AlgodClient("", "https://testnet-api.algonode.cloud")
-```
+- **Best for**: Backend services, data processing, AI/ML integration
+- **Strengths**: Rich ecosystem, excellent for complex business logic
+- **Use Cases**: Server-side applications, data analysis, automated systems
 
 #### 2. **Algorand SDK (JavaScript)**
-```javascript
-const algosdk = require('algosdk');
-
-// Best for: Frontend integration, real-time apps
-const client = new algosdk.Algodv2('', 'https://testnet-api.algonode.cloud', '');
-```
+- **Best for**: Frontend integration, real-time applications
+- **Strengths**: Direct browser compatibility, Web3 integration
+- **Use Cases**: Web applications, mobile apps, real-time dashboards
 
 #### 3. **Algorand SDK (Go)**
-```go
-import "github.com/algorand/go-algorand-sdk/client/v2/algod"
-
-// Best for: High-performance backends
-client, err := algod.MakeClient("https://testnet-api.algonode.cloud", "")
-```
+- **Best for**: High-performance backends, microservices
+- **Strengths**: Excellent performance, concurrent processing
+- **Use Cases**: API services, high-throughput applications, system programming
 
 ### Storage Solutions
 
@@ -427,128 +417,72 @@ def call_contract(app_id, method, args):
 ### 1. **Wallet Integration**
 
 #### WalletConnect Implementation
-```javascript
-// Initialize WalletConnect
-import WalletConnect from "@walletconnect/client";
 
-const connector = new WalletConnect({
-  bridge: "https://bridge.walletconnect.org",
-  qrcodeModal: QRCodeModal,
-});
+WalletConnect integration involves several key components:
 
-// Connect to wallet
-const connectWallet = async () => {
-  try {
-    await connector.createSession();
-  } catch (error) {
-    console.error("Connection failed:", error);
-  }
-};
-```
+- **Session Management**: Establishing secure connections between dApps and wallets
+- **QR Code Generation**: Creating scannable codes for mobile wallet connections
+- **Event Handling**: Managing connection, disconnection, and transaction events
+- **Error Management**: Handling connection failures and user cancellations
+- **Cross-Platform Support**: Ensuring compatibility across different devices and browsers
 
 #### Pera Wallet Integration
-```javascript
-// Pera Wallet connection
-const connectPeraWallet = async () => {
-  try {
-    const accounts = await window.algorand.request({
-      method: 'enable'
-    });
-    return accounts[0];
-  } catch (error) {
-    console.error("Pera Wallet connection failed:", error);
-  }
-};
-```
+
+Pera Wallet integration focuses on native Algorand wallet connectivity:
+
+- **Browser Detection**: Identifying Pera Wallet availability in the browser
+- **Permission Requests**: Requesting necessary permissions for transaction signing
+- **Account Management**: Handling multiple accounts and account switching
+- **Transaction Signing**: Facilitating secure transaction authorization
+- **Network Configuration**: Supporting different Algorand networks (TestNet, MainNet)
 
 ### 2. **Smart Contract Integration**
 
 #### Contract Deployment
-```python
-def deploy_contract(creator_address, private_key, approval_program, clear_program):
-    """Deploy a smart contract"""
-    
-    # Create application creation transaction
-    txn = transaction.ApplicationCreateTxn(
-        sender=creator_address,
-        sp=client.suggested_params(),
-        on_complete=transaction.OnComplete.NoOpOC,
-        approval_program=approval_program,
-        clear_program=clear_program,
-        global_schema=transaction.StateSchema(num_uints=0, num_byte_slices=0),
-        local_schema=transaction.StateSchema(num_uints=0, num_byte_slices=0)
-    )
-    
-    # Sign and submit
-    signed_txn = txn.sign(private_key)
-    txid = client.send_transaction(signed_txn)
-    
-    return txid
-```
+
+Smart contract deployment involves several critical steps:
+
+- **Program Compilation**: Converting high-level code to TEAL bytecode
+- **Parameter Configuration**: Setting up global and local state schemas
+- **Transaction Creation**: Building application creation transactions
+- **Authorization**: Signing transactions with creator's private key
+- **Network Submission**: Deploying contracts to the Algorand network
+- **Verification**: Confirming successful deployment and obtaining application ID
 
 #### Contract Interaction
-```python
-def call_contract_method(app_id, method, args, sender, private_key):
-    """Call a smart contract method"""
-    
-    # Create application call transaction
-    txn = transaction.ApplicationCallTxn(
-        sender=sender,
-        sp=client.suggested_params(),
-        index=app_id,
-        app_args=args
-    )
-    
-    # Sign and submit
-    signed_txn = txn.sign(private_key)
-    txid = client.send_transaction(signed_txn)
-    
-    return txid
-```
+
+Contract interaction requires careful coordination of multiple elements:
+
+- **Method Identification**: Specifying which contract method to call
+- **Argument Preparation**: Formatting and encoding method arguments
+- **Transaction Authorization**: Signing transactions with user's private key
+- **State Management**: Handling global and local state updates
+- **Event Processing**: Managing contract events and return values
+- **Error Handling**: Dealing with transaction failures and contract errors
 
 ### 3. **Storage Integration**
 
 #### IPFS Integration
-```javascript
-import { create } from 'ipfs-http-client';
 
-const ipfs = create({
-  host: 'ipfs.infura.io',
-  port: 5001,
-  protocol: 'https'
-});
+IPFS integration provides decentralized storage capabilities:
 
-const uploadToIPFS = async (data) => {
-  try {
-    const result = await ipfs.add(data);
-    return result.path;
-  } catch (error) {
-    console.error('IPFS upload failed:', error);
-  }
-};
-```
+- **Client Configuration**: Setting up IPFS client connections
+- **Data Upload**: Storing files and metadata on IPFS network
+- **Content Addressing**: Using cryptographic hashes for content identification
+- **Retrieval Management**: Fetching stored content using content identifiers
+- **Pinning Services**: Ensuring content persistence and availability
+- **Error Handling**: Managing network issues and upload failures
 
 #### Database Integration
-```python
-import sqlite3
-from sqlalchemy import create_engine
 
-# SQLite for MVP
-def init_database():
-    conn = sqlite3.connect('app.db')
-    cursor = conn.cursor()
-    
-    cursor.execute('''
-        CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY,
-            address TEXT UNIQUE,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-    
-    conn.commit()
-    conn.close()
-```
+Database integration supports traditional data management:
+
+- **Schema Design**: Creating appropriate database structures
+- **Connection Management**: Establishing and maintaining database connections
+- **Query Optimization**: Efficient data retrieval and manipulation
+- **Migration Handling**: Managing database schema changes
+- **Backup Strategies**: Ensuring data persistence and recovery
+- **Performance Monitoring**: Tracking database performance and optimization
 
 ## MVP Planning Framework
 
@@ -606,15 +540,16 @@ def init_database():
 - **IDE** of choice
 
 #### Dependencies
-```json
-{
-  "dependencies": {
-    "algosdk": "^2.0.0",
-    "react": "^18.0.0",
-    "axios": "^1.0.0"
-  }
-}
-```
+
+Essential dependencies for Web3 development include:
+
+- **Algorand SDK**: Core blockchain interaction library
+- **Frontend Framework**: React, Vue, or Angular for user interfaces
+- **HTTP Client**: Axios or Fetch for API communications
+- **Wallet Integration**: WalletConnect or native wallet libraries
+- **State Management**: Redux, Vuex, or Context API for application state
+- **Testing Framework**: Jest, Mocha, or similar for testing
+- **Build Tools**: Webpack, Vite, or similar for bundling
 
 #### Testing Requirements
 - **Unit tests** for core functions
