@@ -25,7 +25,7 @@ This fellowship program is designed to take you from blockchain beginner to Algo
 
 ---
 
-### Future Sessions (Coming Soon)
+### Other Sessions
 - **[Session 6](./algorand-pak-session-6/)**: Advanced Smart Contract Development with AlgoKit
 - **[Session 7](./algorand-pak-session-7/)**: DeFi Protocols and DApps
 - **[Session 8](./algorand-pak-session-8/)**: Production Deployment and Scaling

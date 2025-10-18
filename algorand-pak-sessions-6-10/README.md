@@ -301,8 +301,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Contact
 
 For questions, suggestions, or support:
-- **Email**: [contact@algorand-pakistan.org]
-- **Discord**: [Algorand Pakistan Discord]
+Whatsapp us
 - **GitHub**: [GitHub Issues]
 
 ---
